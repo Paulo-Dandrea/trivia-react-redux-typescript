@@ -4,6 +4,7 @@ import questionsReducer from './questionsReducer';
 import timerReducer from './timerReducer';
 import settingsReducer from './settingsReducer';
 
+
 const reducer = combineReducers({
   userReducer,
   questionsReducer,

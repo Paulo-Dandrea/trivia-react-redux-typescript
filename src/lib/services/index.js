@@ -1,4 +1,3 @@
-import { fetchToken } from "../services/index";
 import { decodeEntities, randomizeArray } from "../utils";
 
 const QUESTIONS_URL = "https://opentdb.com/api.php?amount=5";

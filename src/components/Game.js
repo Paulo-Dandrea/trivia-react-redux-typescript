@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import ConfigButton from './ConfigButton';
+import ConfigButton from './config-button';
 import QuestionAndAnswers from './QuestionAndAnswers.jsx';
 
 class Game extends React.Component {
@@ -31,7 +31,6 @@ class Game extends React.Component {
   }
 
   render() {
-    console.log('score');
     return (
       <div className="Game-div">
         {this.props.error.length > 1 ? 

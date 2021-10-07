@@ -7,7 +7,6 @@ const INITIAL_STATE = [];
 const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case ADD_USER:
-      // (state.filter(action.email));
       return {
         ...state,
         name: action.name,
@@ -15,7 +14,6 @@ const userReducer = (state = INITIAL_STATE, action) => {
         hash: CryptoJS.MD5(action.email.toLowerCase()).toString(),
       };
     case ADD_SCORE:
-      console.log('teste');
       return {
         ...state,
         score: action.score,

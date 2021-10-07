@@ -1,3 +1,4 @@
+import fetchQuestions from "../lib/services";
 
 export const IS_REQUESTING = "IS_REQUESTING";
 export const ADD_QUESTION = "ADD_QUESTION";
