@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ConfigButton from './ConfigButton';
 import GameButton from './GameButton';
 import { addUser } from '../action';
+import ConfigButton from './config-button';
 
 class Login extends React.Component {
   constructor(props) {
@@ -50,7 +50,7 @@ class Login extends React.Component {
         </div>
         {/* 1 */}
         <GameButton click={() => addUserProps(this.state)} isAvailable={this.isAvailable()} />
-        <ConfigButton />
+        <ConfigButton/>
       </div>
     );
   }

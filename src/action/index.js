@@ -1,20 +1,21 @@
-import fetchQuestions from '../services/QuestionsAPI';
+import fetchQuestions from "../lib/services";
 
-export const IS_REQUESTING = 'IS_REQUESTING';
-export const ADD_QUESTION = 'ADD_QUESTION';
-export const ADD_USER = 'ADD_USER';
-export const SET_TIMER = 'SET_TIMER';
-export const IS_DISABLED = 'IS_DISABLED';
-export const ADD_SCORE = 'ADD_SCORE';
-export const CHANGE_SETTINGS = 'CHANGE_SETTINGS';
-export const ADD_ERROR = 'ADD_ERROR';
+export const IS_REQUESTING = "IS_REQUESTING";
+export const ADD_QUESTION = "ADD_QUESTION";
+export const ADD_USER = "ADD_USER";
+export const SET_TIMER = "SET_TIMER";
+export const IS_DISABLED = "IS_DISABLED";
+export const ADD_SCORE = "ADD_SCORE";
+export const CHANGE_SETTINGS = "CHANGE_SETTINGS";
+export const ADD_ERROR = "ADD_ERROR";
+
 
 export function fetchAndAddQuestions(settings) {
   return (dispatch) => {
     dispatch(isRequesting());
-    return fetchQuestions(settings).then((questions) =>
-      dispatch(addQuestions(questions)),
-      (error) => dispatch(addError(error)),
+    return fetchQuestions(settings).then(
+      (questions) => dispatch(addQuestions(questions)),
+      (error) => dispatch(addError(error))
     );
   };
 }

@@ -1,4 +1,4 @@
-export default function decodeEntities(encodedString) {
+export function decodeEntities(encodedString) {
   const txt = document.createElement("textarea");
   txt.innerHTML = encodedString;
   return txt.value;

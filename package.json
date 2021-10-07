@@ -5,6 +5,10 @@
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^27.0.2",
+    "@types/node": "^16.10.3",
+    "@types/react": "^17.0.27",
+    "@types/react-dom": "^17.0.9",
     "bootstrap": "^4.5.2",
     "crypto-js": "^4.0.0",
     "node-fetch": "^2.6.0",
@@ -16,7 +20,8 @@
     "react-scripts": "^3.4.1",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "typescript": "^4.4.3"
   },
   "scripts": {
     "cy": "cypress run",
@@ -45,6 +50,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^9.5.0",
+    "@types/react-router-dom": "^5.3.1",
     "cypress": "^3.7.0",
     "cypress-multi-reporters": "^1.4.0",
     "mocha": "^7.2.0",
