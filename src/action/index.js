@@ -9,7 +9,7 @@ export const ADD_SCORE = "ADD_SCORE";
 export const CHANGE_SETTINGS = "CHANGE_SETTINGS";
 export const ADD_ERROR = "ADD_ERROR";
 
-
+// THUNK
 export function fetchAndAddQuestions(settings) {
   return (dispatch) => {
     dispatch(isRequesting());

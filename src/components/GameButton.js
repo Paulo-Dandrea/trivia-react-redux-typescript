@@ -15,6 +15,7 @@ export default function GameButton({ isAvailable, click }) {
           data-testid="btn-play"
           disabled={isAvailable}
           onClick={() => {
+            // THIS IS A THUNK
             // Faz a requisição da API e salva dados do usuário na store
             dispatch(fetchAndAddQuestions(settings)); // thunk
             click();
