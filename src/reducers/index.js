@@ -5,11 +5,12 @@ import timerReducer from './timerReducer';
 import settingsReducer from './settingsReducer';
 
 
-const reducer = combineReducers({
+const rootReducer = combineReducers({
   userReducer,
   questionsReducer,
   timerReducer,
   settingsReducer,
 });
 
-export default reducer;
+
+export default rootReducer;

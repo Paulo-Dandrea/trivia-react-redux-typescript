@@ -9,6 +9,7 @@ const Login = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const dispatch = useDispatch();
+  // TODO: useDebounce to name and email maybe?
 
   const isAvailable = () => !(name && email);
 
