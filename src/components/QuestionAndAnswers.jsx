@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { setTimer, disableButton, addScore } from '../action';
-import Timer from './Timer';
+import Timer from './timer';
 
 let interval;
 
@@ -51,7 +51,6 @@ class QuestionAndAnswers extends React.Component {
   answerClick(event) {
     const { questions } = this.props;
     const timer = document.getElementById('timer').innerHTML;
-    console.log(questions[this.state.index]);
     if(interval) {
     clearInterval(interval);
     }
@@ -80,7 +79,6 @@ class QuestionAndAnswers extends React.Component {
     this.setState({
       clickedOnce: true,
     })
-    // console.log(player);
 
     localStorage.setItem('state', JSON.stringify(player));
     this.props.addScore(player.player.score);

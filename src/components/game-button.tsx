@@ -1,13 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchAndAddQuestions } from '../action';
+import React from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAndAddQuestions } from "../action";
+import { RootState } from "src/types";
 
-export default function GameButton({ isAvailable, click }) {
+interface PlayButtonProps {
+  isAvailable: boolean;
+  click: () => void;
+}
+
+export default function PlayButton({ isAvailable, click }: PlayButtonProps) {
   const dispatch = useDispatch();
-  const settings = useSelector(state => state.settingsReducer);
-  console.log(settings);
+  const settings = useSelector((state: RootState) => state.settingsReducer);
+
   return (
     <div className="btn-block">
       <Link to="/game">
@@ -34,8 +39,3 @@ export default function GameButton({ isAvailable, click }) {
     </div>
   );
 }
-
-GameButton.propTypes = {
-  isAvailable: PropTypes.bool.isRequired,
-  click: PropTypes.func.isRequired,
-};

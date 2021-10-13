@@ -14,7 +14,8 @@ export function fetchAndAddQuestions(settings) {
   return (dispatch) => {
     dispatch(isRequesting());
     return fetchQuestions(settings).then(
-      (questions) => dispatch(addQuestions(questions)),
+      (questions) => {
+        dispatch(addQuestions(questions))},
       (error) => dispatch(addError(error))
     );
   };

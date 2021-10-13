@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { addUser } from "src/action";
 import ConfigButton from "src/components/config-button";
 // TODO: change game button name
-import GameButton from "src/components/GameButton";
+import PlayButton from "src/components/game-button";
 
 const Login = () => {
   const [name, setName] = useState("");
@@ -36,7 +36,7 @@ const Login = () => {
           className="form-control ml-1"
         />
       </div>
-      <GameButton
+      <PlayButton
         click={() => dispatch(addUser({ name, email }))}
         isAvailable={isAvailable()}
       />

@@ -3,8 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 import Login from './pages/login';
 import Settings from './pages/settings';
 
-import Feedback from './components/FeedBack';
-import Ranking from './components/Ranking';
+import Feedback from './pages/feedback';
+import Ranking from './components/ranking';
 
 
 import './App.css';

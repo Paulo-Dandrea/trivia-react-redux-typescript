@@ -1,10 +1,13 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
+import { RankPlayer } from "src/types";
 
 const Ranking = () => {
-  const ranking = JSON.parse(localStorage.getItem('ranking')).sort(
-    (a, b) => b.score - a.score,
-  );
+  const ranking = localStorage.getItem("ranking") || "[]";
+  
+  const parsedRanking: RankPlayer[] = JSON.parse(ranking);
+  const sortedRanking = parsedRanking.sort((a, b) => b.score - a.score);
+
   return (
     <div className="Game-divE">
       <Link to="/">
@@ -12,8 +15,8 @@ const Ranking = () => {
           Go home
         </button>
       </Link>
-      <div data-testid="ranking-title" >
-        {ranking.map((player, i) => (
+      <div data-testid="ranking-title">
+        {sortedRanking.map((player, i) => (
           <div className="Game-header">
             <img src={player.picture} alt="player" />
             <div className="player-data">

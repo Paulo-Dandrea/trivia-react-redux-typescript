@@ -56,3 +56,9 @@ export interface SettingsAction {
   name: ActionKeys;
   value: string;
 }
+
+export interface RankPlayer {
+  name: string;
+  picture: string;
+  score: number;
+}
