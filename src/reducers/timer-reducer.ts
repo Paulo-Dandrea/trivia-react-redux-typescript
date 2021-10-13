@@ -1,11 +1,12 @@
+import { TimerActions } from 'src/types';
 import { SET_TIMER, IS_DISABLED } from '../action';
 
 const INITIAL_STATE = {
-  timer: null,
+  timer: 0,
   disabled: false,
 };
 
-export default function timerReducer(state = INITIAL_STATE, action) {
+export default function timerReducer(state = INITIAL_STATE, action: TimerActions) {
   switch (action.type) {
     case SET_TIMER:
       return {

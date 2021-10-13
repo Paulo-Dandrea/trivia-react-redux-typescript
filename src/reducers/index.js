@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import userReducer from './userReducer';
-import questionsReducer from './questionsReducer';
-import timerReducer from './timerReducer';
-import settingsReducer from './settingsReducer';
+import userReducer from './user-reducer';
+import questionsReducer from './questions-reducer';
+import timerReducer from './timer-reducer';
+import settingsReducer from './settings-reducer';
 
 
 const rootReducer = combineReducers({
