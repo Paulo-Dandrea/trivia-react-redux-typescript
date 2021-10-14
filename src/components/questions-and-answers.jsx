@@ -6,51 +6,28 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { extractDifficultyMultiplyer } from "src/lib/utils";
 
-const GAME_SIZE = 2;
+const GAME_SIZE = 5;
 let interval;
 
 const QuestionAndAnswers = () => {
   const [index, setIndex] = React.useState(0);
   const [isClicked, setIsClicked] = React.useState(false);
   const [isClickedOnce, setIsClickedOnce] = React.useState(false);
+  const [disableButton, setDisableButton] = React.useState(false);
 
   const user = useSelector((state) => state.userReducer);
   const questions = useSelector((state) => state.questionsReducer);
-  const timer = useSelector((state) => state.timerReducer);
+  const { timer } = useSelector((state) => state.timerReducer);
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setTimer(30));
-
-    interval = setInterval(() => {
-      dispatch(setTimer(-1));
-    }, 1000);
-
-    dispatch(disableButton(false));
-
-    const player = {
-      name: user.name,
-      assertions: 0,
-      score: 0,
-      gravatarEmail: user.email,
-    };
-
-    localStorage.setItem("player", JSON.stringify(player));
-
-    dispatch(addScore(player.score));
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
 
   const handleClick = (e) => {
     setIndex((prevState) => prevState + 1);
     setIsClicked(false);
     setIsClickedOnce(false);
 
-    dispatch(disableButton(false));
+    setDisableButton(false);
 
     if (index < 3) dispatch(setTimer(30));
 
@@ -74,6 +51,8 @@ const QuestionAndAnswers = () => {
       parsedLocalPlayer.score += 10 + timer * difficulty;
     }
 
+    setDisableButton(true);
+
     setIsClickedOnce(true);
 
     localStorage.setItem("player", JSON.stringify(parsedLocalPlayer));
@@ -85,11 +64,42 @@ const QuestionAndAnswers = () => {
       : setTimeout(() => setIsClicked(true), 5000);
   };
 
+  useEffect(() => {
+    if (timer < 1) {
+      setDisableButton(true);
+    }
+  }, [timer]);
+
+  useEffect(() => {
+    dispatch(setTimer(30));
+
+    interval = setInterval(() => {
+      dispatch(setTimer(-1));
+    }, 1000);
+
+    setDisableButton(false);
+
+    const player = {
+      name: user.name,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: user.email,
+    };
+
+    localStorage.setItem("player", JSON.stringify(player));
+
+    dispatch(addScore(player.score));
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
     <div className="game">
       {questions[index] && (
         <div className="questions">
-        <Timer intervalo={interval} />
+          <Timer intervalo={interval} />
           <h3 data-testid="question-text" className="question">
             {questions[index].question}
           </h3>
@@ -97,7 +107,7 @@ const QuestionAndAnswers = () => {
           {questions[index].answer.map((answer) => (
             <div>
               <button
-                disabled={timer.disabled}
+                disabled={disableButton}
                 onClick={(event) => answerClick(event)}
                 name={answer["data-testid"]}
                 style={isClicked ? answer.style : null}
@@ -112,7 +122,7 @@ const QuestionAndAnswers = () => {
         </div>
       )}
       {index === GAME_SIZE && <Redirect to="/feedback" />}
-      {(isClicked || timer.disabled) && (
+      {(isClicked || timer < 1) && (
         <button
           data-testid="btn-next"
           onClick={() => handleClick()}
