@@ -1,28 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
-import { setTimer, disableButton, addScore } from "../action";
+import { setTimer, addScore } from "../action";
 import Timer from "./timer";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { extractDifficultyMultiplyer } from "src/lib/utils";
+import { RootState } from "src/types";
 
 const GAME_SIZE = 5;
-let interval;
+let interval: NodeJS.Timer;
 
 const QuestionAndAnswers = () => {
-  const [index, setIndex] = React.useState(0);
-  const [isClicked, setIsClicked] = React.useState(false);
-  const [isClickedOnce, setIsClickedOnce] = React.useState(false);
-  const [disableButton, setDisableButton] = React.useState(false);
+  const [index, setIndex] = useState(0);
+  const [isClicked, setIsClicked] = useState(false);
+  const [isClickedOnce, setIsClickedOnce] = useState(false);
+  const [disableButton, setDisableButton] = useState(false);
 
-  const user = useSelector((state) => state.userReducer);
-  const questions = useSelector((state) => state.questionsReducer);
-  const { timer } = useSelector((state) => state.timerReducer);
+  const user = useSelector((state: RootState) => state.userReducer);
+  const questions = useSelector((state: RootState) => state.questionsReducer);
+  const { timer } = useSelector((state: RootState) => state.timerReducer);
 
   const dispatch = useDispatch();
 
-
-  const handleClick = (e) => {
+  const handleClick = () => {
     setIndex((prevState) => prevState + 1);
     setIsClicked(false);
     setIsClickedOnce(false);
@@ -34,21 +34,29 @@ const QuestionAndAnswers = () => {
     interval = setInterval(() => dispatch(setTimer(-1)), 1000);
   };
 
-  const answerClick = (event) => {
-    const timer = document.getElementById("timer").innerHTML;
+  const answerClick = (
+    //   I've learned: HTML Input element because I need the 'name' attribute of the event target?
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    const timer = document.getElementById("timer")?.innerHTML;
 
     if (interval) {
       clearInterval(interval);
     }
 
-    const localPlayer = localStorage.getItem("player");
+    const localPlayer = localStorage.getItem("player") || "";
     const parsedLocalPlayer = JSON.parse(localPlayer);
 
     const difficulty = extractDifficultyMultiplyer(questions[index].difficulty);
 
-    if (event.target.name === "correct-answer" && isClickedOnce === false) {
+    if (
+      event.currentTarget.name === "correct-answer" &&
+      isClickedOnce === false
+    ) {
+      // TODO: I've learned:
+      // https://stackoverflow.com/questions/55389447/property-name-does-not-exist-on-type-eventtarget-react-typescript
       parsedLocalPlayer.assertions += 1;
-      parsedLocalPlayer.score += 10 + timer * difficulty;
+      parsedLocalPlayer.score += 10 + Number(timer) * difficulty;
     }
 
     setDisableButton(true);
@@ -104,13 +112,15 @@ const QuestionAndAnswers = () => {
             {questions[index].question}
           </h3>
           <p data-testid="question-category">{questions[index].category}</p>
+          {/* TODO: Is it 'answers' instead of 'answer'
+          My guess is: I've typed wrong */}
           {questions[index].answer.map((answer) => (
             <div>
               <button
                 disabled={disableButton}
                 onClick={(event) => answerClick(event)}
                 name={answer["data-testid"]}
-                style={isClicked ? answer.style : null}
+                style={isClicked ? answer.style : { border: "none" }}
                 key={answer.answer}
                 data-testid={answer["data-testid"]}
                 className="btn btn-block btn-dark mb-2"

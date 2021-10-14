@@ -27,7 +27,7 @@ export type Answer = {
 export type Question = {
   question: string;
   category: string;
-  answers: Answer[];
+  answer: Answer[];
   difficulty: string;
   type: string;
 };
