@@ -5,7 +5,7 @@ export default function ConfigButton() {
   return (
     <>
       <Link to="/settings">
-        <button data-testid="btn-settings" className="btn btn-dark m-2 fa fa-gear">
+        <button data-testid="btn-settings" className="btn btn-secondary m-2 fa fa-gear">
         </button>
       </Link>
     </>

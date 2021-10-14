@@ -19,9 +19,9 @@ const Header = () => {
         <h4>
           <span data-testid="header-player-name">{name}</span>
         </h4>
-        <h4>
-          <span data-testid="header-score"> {score}</span>
-        </h4>
+        <div className="header-score">
+          <h4 data-testid="header-score">{score}</h4>
+        </div>
       </div>
     </header>
   );
