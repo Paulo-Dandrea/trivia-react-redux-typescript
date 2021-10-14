@@ -9,34 +9,35 @@ const Feedback = () => {
   const { hash, name, score } = user;
 
   useEffect(() => {
-    const previousRank = localStorage.getItem("rank");
+    const previousRank = localStorage.getItem("ranking");
+    let previousRankParsed = [];
 
     if (previousRank) {
-      const previousRankParsed = JSON.parse(previousRank) || [];
-
-      localStorage.setItem(
-        "ranking",
-        JSON.stringify([
-          ...previousRankParsed,
-          {
-            name,
-            score,
-            // TODO: put constants in a separate file
-            picture: `https://www.gravatar.com/avatar/${hash}`,
-          },
-        ])
-      );
+      previousRankParsed = JSON.parse(previousRank);
     }
+
+    localStorage.setItem(
+      "ranking",
+      JSON.stringify([
+        ...previousRankParsed,
+        {
+          name,
+          score,
+          // TODO: put constants in a separate file
+          picture: `https://www.gravatar.com/avatar/${hash}`,
+        },
+      ])
+    );
   }, []);
 
   const previousState = localStorage.getItem("state") || "";
 
-  const previousRankParsed = JSON.parse(previousState) || [];
+  const previousStateParsed = JSON.parse(previousState) || [];
 
-  const assertions = previousRankParsed?.player?.assertions;
+  const assertions = previousStateParsed?.assertions;
 
   return (
-    <div className="Game-div">
+    <div className="game-div">
       <div className="questions">
         <FeedbackHeader />
         <div>
@@ -59,7 +60,6 @@ const Feedback = () => {
         <div className="botoes-retornar">
           <Link to="/">
             <button
-            // TODO: use a stable pattern for class names
               data-testid="btn-play-again"
               className="btn-block btn btn-success"
             >
