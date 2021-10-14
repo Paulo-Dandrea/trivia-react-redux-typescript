@@ -8,7 +8,7 @@ const QUESTION_CATEGORY_SELECTOR = '[data-testid="question-category"]';
 const QUESTION_TEXT_SELECTOR = '[data-testid="question-text"]';
 const CORRECT_ALTERNATIVE_SELECTOR = '[data-testid="correct-answer"]';
 const WRONG_ALTERNATIVES_SELECTOR = '[data-testid*="wrong-answer"]';
-const LOCAL_STORAGE_STATE_KEY = 'state';
+const LOCAL_STORAGE_STATE_KEY = 'player';
 const BUTTON_NEXT_QUESTION_SELECTOR = '[data-testid="btn-next"]';
 const FEEDBACK_TEXT_SELECTOR = '[data-testid="feedback-text"]';
 
