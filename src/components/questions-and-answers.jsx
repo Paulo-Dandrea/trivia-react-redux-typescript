@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import PropTypes from "prop-types";
 import { setTimer, disableButton, addScore } from "../action";
 import Timer from "./timer";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { extractDifficultyMultiplyer } from "src/lib/utils";
 
+const GAME_SIZE = 2;
 let interval;
 
 const QuestionAndAnswers = () => {
@@ -24,25 +24,21 @@ const QuestionAndAnswers = () => {
     dispatch(setTimer(30));
 
     interval = setInterval(() => {
-      dispatch(() => setTimer(-1));
+      dispatch(setTimer(-1));
     }, 1000);
 
     dispatch(disableButton(false));
 
-    // take player out of player
-
     const player = {
-      player: {
-        name: user.name,
-        assertions: 0,
-        score: 0,
-        gravatarEmail: user.email,
-      },
+      name: user.name,
+      assertions: 0,
+      score: 0,
+      gravatarEmail: user.email,
     };
 
-    localStorage.setItem("state", JSON.stringify(player));
+    localStorage.setItem("player", JSON.stringify(player));
 
-    dispatch(addScore(player.player.score));
+    dispatch(addScore(player.score));
 
     return () => {
       clearInterval(interval);
@@ -68,36 +64,21 @@ const QuestionAndAnswers = () => {
       clearInterval(interval);
     }
 
-    const localPlayer = localStorage.getItem("state");
+    const localPlayer = localStorage.getItem("player");
     const parsedLocalPlayer = JSON.parse(localPlayer);
 
-    let difficulty = 0;
-
-    switch (questions[index].difficulty) {
-      case "hard":
-        difficulty = 3;
-        break;
-      case "medium":
-        difficulty = 2;
-        break;
-      case "easy":
-        difficulty = 1;
-        break;
-      default:
-        difficulty = 0;
-        break;
-    }
+    const difficulty = extractDifficultyMultiplyer(questions[index].difficulty);
 
     if (event.target.name === "correct-answer" && isClickedOnce === false) {
-      parsedLocalPlayer.player.assertions += 1;
-      parsedLocalPlayer.player.score += 10 + timer * difficulty;
+      parsedLocalPlayer.assertions += 1;
+      parsedLocalPlayer.score += 10 + timer * difficulty;
     }
 
     setIsClickedOnce(true);
 
-    localStorage.setItem("state", JSON.stringify(parsedLocalPlayer));
+    localStorage.setItem("player", JSON.stringify(parsedLocalPlayer));
 
-    dispatch(addScore(parsedLocalPlayer.player.score));
+    dispatch(addScore(parsedLocalPlayer.score));
 
     return isClicked && !isClickedOnce
       ? false
@@ -108,7 +89,7 @@ const QuestionAndAnswers = () => {
     <div className="game">
       {questions[index] && (
         <div className="questions">
-          <Timer intervalo={interval} />
+        <Timer intervalo={interval} />
           <h3 data-testid="question-text" className="question">
             {questions[index].question}
           </h3>
@@ -120,7 +101,7 @@ const QuestionAndAnswers = () => {
                 onClick={(event) => answerClick(event)}
                 name={answer["data-testid"]}
                 style={isClicked ? answer.style : null}
-                key={Math.random() * 100}
+                key={answer.answer}
                 data-testid={answer["data-testid"]}
                 className="btn btn-block btn-dark mb-2"
               >
@@ -130,7 +111,7 @@ const QuestionAndAnswers = () => {
           ))}
         </div>
       )}
-      {index === 5 && <Redirect to="/feedback" />}
+      {index === GAME_SIZE && <Redirect to="/feedback" />}
       {(isClicked || timer.disabled) && (
         <button
           data-testid="btn-next"
