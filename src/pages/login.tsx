@@ -2,21 +2,18 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "src/action";
 import ConfigButton from "src/components/config-button";
-// TODO: change game button name
 import PlayButton from "src/components/game-button";
 
 const Login = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const dispatch = useDispatch();
-  // TODO: useDebounce to name and email maybe?
 
   const isAvailable = () => !(name && email);
 
   return (
     <div className="form-group">
       <div className="input-group mb-2">
-        {/* TODO: reusable inputs */}
         <input
           name="name"
           value={name}

@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import React from "react";
 import { RootState } from "src/types";
+import { GRAVATAR_PICTURE } from "src/lib/constants";
 
 const FeedbackHeader = () => {
   const user = useSelector((state: RootState) => state.userReducer);
@@ -14,7 +15,7 @@ const FeedbackHeader = () => {
       </p>
       <img
         data-testid="header-profile-picture"
-        src={`https://www.gravatar.com/avatar/${hash}`}
+        src={GRAVATAR_PICTURE + hash}
         alt="jogador"
       />
       <p>

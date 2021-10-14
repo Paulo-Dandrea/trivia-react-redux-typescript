@@ -1,20 +1,17 @@
+import { TOKEN_URL, QUESTIONS_URL } from "../constants";
 import { decodeEntities, randomizeArray } from "../utils";
 
-const QUESTIONS_URL = "https://opentdb.com/api.php?amount=5";
-const TOKEN_URL = "https://opentdb.com/api_token.php?command=request";
-
 function fetchToken() {
-    return fetch(TOKEN_URL)
-      .then((response) => response.json())
-      .then(
-        (data) => {
-          localStorage.setItem("token", data.token);
-          return data.token;
-        },
-        (error) => console.log("fetchToken", error)
-      );
-  }
-  
+  return fetch(TOKEN_URL)
+    .then((response) => response.json())
+    .then(
+      (data) => {
+        localStorage.setItem("token", data.token);
+        return data.token;
+      },
+      (error) => console.log("fetchToken", error)
+    );
+}
 
 function answers(questions) {
   const allQuestionsRandomized = questions.map((question) => {
@@ -57,5 +54,4 @@ function fetchQuestions({ category, difficulty, type }) {
   );
 }
 
-
-export default fetchQuestions
+export default fetchQuestions;

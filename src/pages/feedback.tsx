@@ -3,6 +3,7 @@ import FeedbackHeader from "../components/feedback-header";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "src/types";
+import { GRAVATAR_PICTURE } from "src/lib/constants";
 
 const Feedback = () => {
   const user = useSelector((state: RootState) => state.userReducer);
@@ -23,8 +24,7 @@ const Feedback = () => {
         {
           name,
           score,
-          // TODO: put constants in a separate file
-          picture: `https://www.gravatar.com/avatar/${hash}`,
+          picture: GRAVATAR_PICTURE + hash,
         },
       ])
     );

@@ -15,6 +15,7 @@ export default function timerReducer(state = INITIAL_STATE, action: TimerActions
           state.timer + action.timer > 30 ? 30 : state.timer + action.timer,
       };
     case IS_DISABLED:
+      console.log('is disabled');
       return {
         ...state,
         disabled: action.disabled,
