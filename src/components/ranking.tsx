@@ -9,7 +9,7 @@ const Ranking = () => {
   const sortedRanking = parsedRanking.sort((a, b) => b.score - a.score);
 
   return (
-    <div className="Game-divE">
+    <div className="game-divE">
       <Link to="/">
         <button data-testid="btn-go-home" className="btn btn-block btn-success">
           Go home
@@ -17,7 +17,7 @@ const Ranking = () => {
       </Link>
       <div data-testid="ranking-title">
         {sortedRanking.map((player, i) => (
-          <div className="Game-header">
+          <div className="game-header">
             <img src={player.picture} alt="player" />
             <div className="player-data">
               <p data-testid={`player-name-${i}`}>

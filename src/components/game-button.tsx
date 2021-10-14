@@ -21,7 +21,6 @@ export default function PlayButton({ isAvailable, click }: PlayButtonProps) {
           disabled={isAvailable}
           onClick={() => {
             // THIS IS A THUNK
-            // Faz a requisição da API e salva dados do usuário na store
             dispatch(fetchAndAddQuestions(settings)); // thunk
             click();
           }}

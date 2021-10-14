@@ -14,10 +14,10 @@ import Game from './pages/game';
 export default function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+      <header className="app-header">
+        <img src={logo} className="app-logo" alt="logo" />
       </header>
-      <section className="Main-site">
+      <section className="main-site">
         <Switch>
           <Route path="/feedback" component={Feedback} />
           <Route path="/ranking" component={Ranking} />

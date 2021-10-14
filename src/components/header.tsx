@@ -7,7 +7,7 @@ const Header = () => {
   const { hash, name, score } = user;
 
   return (
-    <header className="Game-header">
+    <header className="game-header">
       <div>
         <img
           data-testid="header-profile-picture"
@@ -17,7 +17,7 @@ const Header = () => {
       </div>
       <div className="player-data">
         <h4>
-          <span data-testid="header-player-name"> {name}</span>
+          <span data-testid="header-player-name">{name}</span>
         </h4>
         <h4>
           <span data-testid="header-score"> {score}</span>

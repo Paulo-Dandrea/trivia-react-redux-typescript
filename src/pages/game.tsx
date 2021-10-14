@@ -1,11 +1,11 @@
 import React from "react";
 import ConfigButton from "src/components/config-button";
 import Header from "src/components/header";
-import QuestionAndAnswers from "src/components/QuestionAndAnswers";
+import QuestionAndAnswers from "src/components/questions-and-answers";
 
 const Game = () => {
   return (
-    <div className="Game-div">
+    <div className="game-div">
       <div>
         <Header />
         <QuestionAndAnswers />
