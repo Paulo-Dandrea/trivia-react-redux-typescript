@@ -30,7 +30,7 @@ const Feedback = () => {
     );
   }, []);
 
-  const previousState = localStorage.getItem("state") || "";
+  const previousState = localStorage.getItem("player") || "";
 
   const previousStateParsed = JSON.parse(previousState) || [];
 
