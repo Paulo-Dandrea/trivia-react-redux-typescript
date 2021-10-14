@@ -40,5 +40,5 @@
     "jest.config.js",
     ".jest/setup.ts",
     "before-build.js"
-, "src/components/header.tsx", "src/pages/game.tsx", "src/reducers/questionsReducer.js", "src/action/index.js", "src/components/QuestionAndAnswers.jsx"  ]
+, "src/components/header.tsx", "src/pages/game.tsx", "src/reducers/questionsReducer.js", "src/action/index.js", "src/components/QuestionAndAnswers.js"  ]
 }
