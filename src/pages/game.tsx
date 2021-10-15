@@ -11,16 +11,6 @@ const Game = () => {
         <QuestionAndAnswers />
         <ConfigButton />
       </div>
-
-      {/* {error?.length > 1 ? (
-        <div>
-          <Header  />
-          <QuestionAndAnswers/>
-          <ConfigButton />
-        </div>
-      ) : (
-        <h1>{error[0]}</h1>
-      )} */}
     </div>
   );
 };

@@ -11,8 +11,6 @@ const INITIAL_STATE = {
 };
 
 const userReducer = (state = INITIAL_STATE, action: UserActions) => {
-  // I've learned here:
-  // That I cannot destructure the action object before the switch statement
   switch (action.type) {
     case ADD_USER:
       return {

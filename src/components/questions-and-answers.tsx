@@ -53,8 +53,6 @@ const QuestionAndAnswers = () => {
       event.currentTarget.name === "correct-answer" &&
       isClickedOnce === false
     ) {
-      // TODO: I've learned:
-      // https://stackoverflow.com/questions/55389447/property-name-does-not-exist-on-type-eventtarget-react-typescript
       parsedLocalPlayer.assertions += 1;
       parsedLocalPlayer.score += 10 + Number(timer) * difficulty;
     }
@@ -112,8 +110,6 @@ const QuestionAndAnswers = () => {
             {questions[index].question}
           </h3>
           <p data-testid="question-category">{questions[index].category}</p>
-          {/* TODO: Is it 'answers' instead of 'answer'
-          My guess is: I've typed wrong */}
           {questions[index].answer.map((answer) => (
             <div>
               <button

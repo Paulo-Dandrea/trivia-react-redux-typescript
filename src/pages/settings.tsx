@@ -9,8 +9,6 @@ export default function Settings() {
     <div className="questions">
       <h1 data-testid="settings-title">Settings</h1>
       <div>
-        {/* TODO: dynamic category, difficulties and types */}
-        {/* TODO: Same combobox components */}
         <select
           name="category"
           onChange={({ target: { name, value } }) =>
