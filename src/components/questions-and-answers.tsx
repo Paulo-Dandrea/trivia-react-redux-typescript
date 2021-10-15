@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { extractDifficultyMultiplyer } from "src/lib/utils";
 import { RootState } from "src/types";
 
-const GAME_SIZE = 2;
+const GAME_SIZE = 5;
 let interval: NodeJS.Timer;
 
 const QuestionAndAnswers = () => {
