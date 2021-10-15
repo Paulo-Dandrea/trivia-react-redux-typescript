@@ -14,10 +14,8 @@ I've refactored it with *Typescript* and *Hooks*.
 - [My process](#my-process)
   - [Built with](#built-with)
   - [Continued development](#continued-development)
-  - [Useful resources](#useful-resources)
 - [Author](#author)
 
-**Note: Delete this note and update the table of contents based on what sections you keep.**
 
 ## Overview
 
@@ -61,11 +59,6 @@ There's some things to be improved:
 - CSS practices and migration from Bootstrap to Styled Components
 - Design
 - Ux
-
-### Useful resources
-
-- [Event.currentTarget.name](https://stackoverflow.com/questions/55389447/property-name-does-not-exist-on-type-eventtarget-react-typescript) 
-
 
 ## Author
 
