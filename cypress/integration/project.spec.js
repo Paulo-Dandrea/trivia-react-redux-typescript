@@ -8,7 +8,7 @@ const QUESTION_CATEGORY_SELECTOR = '[data-testid="question-category"]';
 const QUESTION_TEXT_SELECTOR = '[data-testid="question-text"]';
 const CORRECT_ALTERNATIVE_SELECTOR = '[data-testid="correct-answer"]';
 const WRONG_ALTERNATIVES_SELECTOR = '[data-testid*="wrong-answer"]';
-const LOCAL_STORAGE_STATE_KEY = 'state';
+const LOCAL_STORAGE_STATE_KEY = 'player';
 const BUTTON_NEXT_QUESTION_SELECTOR = '[data-testid="btn-next"]';
 const FEEDBACK_TEXT_SELECTOR = '[data-testid="feedback-text"]';
 
@@ -40,7 +40,7 @@ const BUTTON_PLAY_AGAIN_SELECTOR = '[data-testid="btn-play-again"]';
 
 // game
 
-describe('O _header_ deve conter as informações da pessoa jogadora', () => {
+describe('_Header_ must contain player info', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -50,20 +50,20 @@ describe('O _header_ deve conter as informações da pessoa jogadora', () => {
     cy.get(HEADER_NAME_SELECTOR);
   });
 
-  it('a imagem do Gravatar está presente no header', () => {
+  it('the Gravatar image should be on the _Header_', () => {
     cy.get(HEADER_IMAGE_SELECTOR).should('exist');
   });
 
-  it('o nome da pessoa está presente no header', () => {
+  it('the player namer should be on the _Header_', () => {
     cy.get(HEADER_NAME_SELECTOR).contains(name);
   });
 
-  it('o placar zerado está presente no header', () => {
+  it('the initial score should be on the _Header_', () => {
     cy.get(HEADER_SCORE_SELECTOR).contains('0');
   });
 });
 
-describe('A página deve conter as informações relacionadas à pergunta', () => {
+describe('Page should contain all info related to the question', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -72,21 +72,21 @@ describe('A página deve conter as informações relacionadas à pergunta', () =
     cy.get(BUTTON_PLAY_SELECTOR).click();
   });
 
-  it('a categoria da pergunta está presente', () => {
+  it('category should be present', () => {
     cy.get(QUESTION_CATEGORY_SELECTOR).should('exist');
   });
 
-  it('o texto da pergunta está presente', () => {
+  it('all answers should be present', () => {
     cy.get(QUESTION_TEXT_SELECTOR).should('exist');
   });
 
-  it('as alternativas devem estar presentes', () => {
+  it('category should be present', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('exist');
     cy.get(WRONG_ALTERNATIVES_SELECTOR).should('exist');
   });
 });
 
-describe('Só deve ser possível escolher uma resposta correta por pergunta', () => {
+describe('It must be possible to guess only once', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -95,12 +95,12 @@ describe('Só deve ser possível escolher uma resposta correta por pergunta', ()
     cy.get(BUTTON_PLAY_SELECTOR).click();
   });
 
-  it('a quantidade de respostas corretas deve ser 1', () => {
+  it('should only exist 1 correct answer', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('have.length', 1);
   });
 });
 
-describe('Ao clicar em uma resposta, a resposta correta deve ficar verde e as incorretas, vermelhas', () => {
+describe('When clicking on an answer, the correct answer should be green and the incorrect ones should be red', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -109,28 +109,28 @@ describe('Ao clicar em uma resposta, a resposta correta deve ficar verde e as in
     cy.get(BUTTON_PLAY_SELECTOR).click();
   });
 
-  it('verifica cor da alternativa correta quando acerta a questão', () => {
+  it('checks the correct answer colour', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('have.css', 'border', '3px solid rgb(6, 240, 15)');
   });
 
-  it('verifica a cor das alternativas incorretas quando acerta a questão', () => {
+  it('checks the incorrect answers colour', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
     cy.get(WRONG_ALTERNATIVES_SELECTOR).should('have.css', 'border', '3px solid rgb(255, 0, 0)');
   });
 
-  it('verifica cor da alternativa correta quando erra a questão', () => {
+  it('checks the correct answer colour when the player guessed wrongly', () => {
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click();
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('have.css', 'border', '3px solid rgb(6, 240, 15)');
   });
 
-  it('verifica a cor das alternativas incorretas quando erra a questão', () => {
+  it('checks the incorrect answers colour when the player guessed wrongly', () => {
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click();
     cy.get(WRONG_ALTERNATIVES_SELECTOR).should('have.css', 'border', '3px solid rgb(255, 0, 0)');
   });
 });
 
-describe('A pessoa que joga tem 30 segundos para responder cada pergunta', () => {
+describe('Player only have 30 seconds to guess it', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -139,18 +139,13 @@ describe('A pessoa que joga tem 30 segundos para responder cada pergunta', () =>
     cy.get(BUTTON_PLAY_SELECTOR).click();
   });
 
-  it('aguarda 5 segundos e responde a alternativa correta', () => {
-    cy.wait(5000);
-    cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('not.be.disabled').click();
-  });
-
-  it('aguarda mais de 30 segundos para responder', () => {
+  it('waits 30 seconds', () => {
     cy.wait(32000);
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).should('be.disabled');
   });
 });
 
-describe('Ao clicar na resposta correta, pontos devem ser somados no placar da pessoa que está jogando', () => {
+describe('By clicking on the correct answer, points must be added to the score of the player', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -160,24 +155,24 @@ describe('Ao clicar na resposta correta, pontos devem ser somados no placar da p
     cy.get(HEADER_SCORE_SELECTOR);
   });
 
-  it('soma pontos ao acertar uma questão', () => {
+  it('scores points for getting a question right', () => {
     const then = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click().then(() => {
       const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(then.player.score).to.be.lt(now.player.score);
+      expect(then.score).to.be.lt(now.score);
     });
   });
 
-  it('não soma pontos ao errar uma questão', () => {
+  it("doesn't scores points for getting a question wrong", () => {
     const then = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click().then(() => {
       const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(then.player.score).to.be.eq(now.player.score);
+      expect(then.score).to.be.eq(now.score);
     });
   });
 });
 
-describe('Após a resposta ser dada, o botão "Próxima" deve aparecer', () => {
+describe('After the answer is given, the "Next" button should appear.', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -187,22 +182,22 @@ describe('Após a resposta ser dada, o botão "Próxima" deve aparecer', () => {
     cy.get(QUESTION_TEXT_SELECTOR);
   });
 
-  it('o botão de próxima pergunta não deve ser visível o início do jogo', () => {
+  it('the "Next" button should not be visible at the start of the game', () => {
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).should('not.be.visible');
   });
 
-  it('botão de próxima pergunta é visível quando a pergunta é respondida corretamente', () => {
+  it('the "Next" button should  be visible when getting a question right', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).should('be.visible');
   });
 
-  it('botão de próxima pergunta é visível quando a pergunta é respondida incorretamente', () => {
+  it('the "Next" button should  be visible when getting a question wrong', () => {
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).should('be.visible');
   });
 });
 
-describe('A pessoa que joga deve responder 5 perguntas no total', () => {
+describe('The player must answer 5 questions in total.', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -212,7 +207,7 @@ describe('A pessoa que joga deve responder 5 perguntas no total', () => {
     cy.get(HEADER_SCORE_SELECTOR);
   });
 
-  it('acerta todas as perguntas', () => {
+  it('he gets all the questions right', () => {
     const before = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
@@ -224,11 +219,11 @@ describe('A pessoa que joga deve responder 5 perguntas no total', () => {
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click().then(() => {
       const after = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(before.player.score).to.be.lt(after.player.score);
+      expect(before.score).to.be.lt(after.score);
     });
   });
 
-  it('erra todas as perguntas', () => {
+  it('he gets all the questions worng', () => {
     const before = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
@@ -240,11 +235,11 @@ describe('A pessoa que joga deve responder 5 perguntas no total', () => {
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click().then(() => {
       const after = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(before.player.score).to.be.eq(after.player.score);
+      expect(before.score).to.be.eq(after.score);
     });
   });
 
-  it('redireciona para a tela de _feedback_ após a quinta pergunta', () => {
+  it('redirects to _feedback_ screen after fifth question', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
@@ -261,62 +256,52 @@ describe('A pessoa que joga deve responder 5 perguntas no total', () => {
 
 // home
 
-describe('A pessoa que joga deve preencher as informações para iniciar um jogo', () => {
+describe('The person who plays must fill in the information to start a game.', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
   });
 
-  it('escreve o nome da pessoa jogadora', () => {
+  it("write the player's name", () => {
     cy.get(INPUT_PLAYER_NAME_SELECTOR).type('Nome da pessoa');
   });
 
-  it('escreve o email da pessoa jogadora', () => {
+  it("write the player's email", () => {
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).type('email@pessoa.com');
   });
 
-  it('botão Jogar desabilitado quando pessoa jogadora não preencher nenhum campo', () => {
+  it('Play button should be disabled when player person does not fill any field', () => {
     cy.get(BUTTON_PLAY_SELECTOR).should('be.disabled');
   });
 
-  it('botão Jogar desabilitado quando pessoa jogadora escrever apenas o nome', () => {
-    cy.get(INPUT_PLAYER_NAME_SELECTOR).type('Nome da pessoa');
-    cy.get(BUTTON_PLAY_SELECTOR).should('be.disabled');
-  });
-
-  it('botão Jogar desabilitado quando pessoa jogadora escrever apenas o email', () => {
-    cy.get(INPUT_PLAYER_EMAIL_SELECTOR).type('email@pessoa.com');
-    cy.get(BUTTON_PLAY_SELECTOR).should('be.disabled');
-  });
-
-  it('botão Jogar habilitado quando pessoa jogadora preencher os campos de nome e email', () => {
+  it('Play button must be enabled when player person fills name and email fields', () => {
     cy.get(INPUT_PLAYER_NAME_SELECTOR).type('Nome da pessoa');
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).type('email@pessoa.com');
     cy.get(BUTTON_PLAY_SELECTOR).should('not.be.disabled');
   });
 });
 
-describe('A pessoa que joga deve ter acesso à tela de configurações através da tela inicial', () => {
+describe('The player must have access to the settings screen via Home', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
   });
 
-  it('o botão deve existir na página', () => {
+  it('the play button should exist on the page', () => {
     cy.get(BUTTON_SETTINGS_SELECTOR).should('exist');
   });
 
-  it('a tela de configurações deve possuir um título', () => {
+  it('the settings screen should have a title', () => {
     cy.get(BUTTON_SETTINGS_SELECTOR).click();
     cy.get(SETTINGS_TITLE_SELECTOR).should('exist');
   });
 });
 
-describe('A pessoa jogadora deve iniciar um jogo', () => {
+describe('The player should start a game', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
   });
 
-  it('inicia jogo salvando um token de jogador', () => {
+  it('starts the game by saving a player token', () => {
     cy.get(INPUT_PLAYER_NAME_SELECTOR).type('Nome da pessoa');
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).type('email@pessoa.com');
     cy.get(BUTTON_PLAY_SELECTOR).click().should(() => {
@@ -327,7 +312,7 @@ describe('A pessoa jogadora deve iniciar um jogo', () => {
 
 // ranking
 
-describe('Deve existir um botão para ir ao início', () => {
+describe('There must be a button to go Home at _ranking_', () => {
   it('volta para a tela inicial', () => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -350,7 +335,7 @@ describe('Deve existir um botão para ir ao início', () => {
   });
 });
 
-describe('Apresentação do _ranking_', () => {
+describe('_ranking_ presentation', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -370,13 +355,13 @@ describe('Apresentação do _ranking_', () => {
     cy.get(BUTTON_RANKING_SELECTOR).click();
   });
 
-  it('deve existir uma pessoa no _ranking_', () => {
+  it('should exist one player on the _ranking_ page', () => {
     cy.get(RANKING_PLAYERS_NAME_SELECTOR).should(($el) => {
       expect($el).to.have.lengthOf(1);
     });
   });
 
-  it('devem existir duas pessoas no _ranking', () => {
+  it('should exist two players on the _ranking_ page', () => {
     cy.get(BUTTON_GO_HOME_SELECTOR).click();
     cy.get(INPUT_PLAYER_NAME_SELECTOR).clear();
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).clear();
@@ -400,7 +385,7 @@ describe('Apresentação do _ranking_', () => {
     });
   });
 
-  it('o _ranking_ deve ser ordenado pela pontuação', () => {
+  it('the _ranking_ must be ordered by score', () => {
     cy.get(BUTTON_GO_HOME_SELECTOR).click();
     cy.get(INPUT_PLAYER_NAME_SELECTOR).clear();
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).clear();
@@ -451,7 +436,7 @@ describe('Apresentação do _ranking_', () => {
 
 // feedback
 
-describe('O _header_ de _feedback_ deve conter as informações da pessoa jogadora', () => {
+describe('The _header_feedback_ should contain player info', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -470,23 +455,23 @@ describe('O _header_ de _feedback_ deve conter as informações da pessoa jogado
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
   });
 
-  it('a imagem do Gravatar está presente no header', () => {
+  it('Gravater image should be visible', () => {
     cy.get(HEADER_IMAGE_SELECTOR).should('exist');
   });
 
-  it('o nome da pessoa está presente no header', () => {
+  it("Player's name should be visible", () => {
     cy.get(HEADER_NAME_SELECTOR).contains(name);
   });
 
-  it('o placar com o valor atual está presente no header', () => {
+  it('The updated score should be visible', () => {
     cy.get(HEADER_SCORE_SELECTOR).should(($el) => {
-      const state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(parseInt($el.text())).to.be.eq(state.player.score);
+      const player = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
+      expect(parseInt($el.text())).to.be.eq(player.score);
     });
   });
 });
 
-describe('A pessoa deve ver a mensagem de _feedback_', () => {
+describe('User must see feedback message', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -495,7 +480,7 @@ describe('A pessoa deve ver a mensagem de _feedback_', () => {
     cy.get(BUTTON_PLAY_SELECTOR).click();
   });
 
-  it('acertou menos de 3 perguntas', () => {
+  it('He got right less than 3 times', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
@@ -509,7 +494,7 @@ describe('A pessoa deve ver a mensagem de _feedback_', () => {
     cy.get(FEEDBACK_TEXT_SELECTOR).contains('Podia ser melhor...');
   });
 
-  it('acertou 3 perguntas', () => {
+  it('He got right 3 times', () => {
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
@@ -523,7 +508,7 @@ describe('A pessoa deve ver a mensagem de _feedback_', () => {
     cy.get(FEEDBACK_TEXT_SELECTOR).contains('Mandou bem!');
   });
 
-  it('acertou mais de 3 perguntas', () => {
+  it('He got right more than 3 times', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
@@ -538,7 +523,7 @@ describe('A pessoa deve ver a mensagem de _feedback_', () => {
   });
 });
 
-describe('A pessoa jogadora deve ver as informações relacionadas aos resultados obtidos', () => {
+describe('The User should be able to see his score and assertions', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -547,7 +532,7 @@ describe('A pessoa jogadora deve ver as informações relacionadas aos resultado
     cy.get(BUTTON_PLAY_SELECTOR).click();
   });
 
-  it('não acertou nenhuma pergunta', () => {
+  it('He got all wrong', () => {
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click();
@@ -559,16 +544,16 @@ describe('A pessoa jogadora deve ver as informações relacionadas aos resultado
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(FEEDBACK_TOTAL_SCORE_SELECTOR).should(($el) => {
-      const state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(parseInt($el.text())).to.be.eq(state.player.score);
+      const player = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
+      expect(parseInt($el.text())).to.be.eq(player.score);
     });
     cy.get(FEEDBACK_TOTAL_QUESTION_SELECTOR).should(($el) => {
-      const state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(parseInt($el.text())).to.be.eq(state.player.assertions);
+      const player = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
+      expect(parseInt($el.text())).to.be.eq(player.assertions);
     });
   });
 
-  it('acertou 2 perguntas', () => {
+  it('He got right 2 questions', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
@@ -580,16 +565,16 @@ describe('A pessoa jogadora deve ver as informações relacionadas aos resultado
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(FEEDBACK_TOTAL_SCORE_SELECTOR).should(($el) => {
-      const state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(parseInt($el.text())).to.be.eq(state.player.score);
+      const player = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
+      expect(parseInt($el.text())).to.be.eq(player.score);
     });
     cy.get(FEEDBACK_TOTAL_QUESTION_SELECTOR).should(($el) => {
-      const state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(parseInt($el.text())).to.be.eq(state.player.assertions);
+      const player = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
+      expect(parseInt($el.text())).to.be.eq(player.assertions);
     });
   });
 
-  it('acertou 4 perguntas', () => {
+  it('He got right 4 questions', () => {
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
@@ -601,17 +586,17 @@ describe('A pessoa jogadora deve ver as informações relacionadas aos resultado
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(FEEDBACK_TOTAL_SCORE_SELECTOR).should(($el) => {
-      const state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(parseInt($el.text())).to.be.eq(state.player.score);
+      const player = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
+      expect(parseInt($el.text())).to.be.eq(player.score);
     });
     cy.get(FEEDBACK_TOTAL_QUESTION_SELECTOR).should(($el) => {
-      const state = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(parseInt($el.text())).to.be.eq(state.player.assertions);
+      const player = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
+      expect(parseInt($el.text())).to.be.eq(player.assertions);
     });
   });
 });
 
-describe('A pessoa jogadora tem a opção de jogar novamente', () => {
+describe('The User can play again', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -630,13 +615,13 @@ describe('A pessoa jogadora tem a opção de jogar novamente', () => {
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
   });
 
-  it('a pessoa deve ser redirecionada para tela inicial', () => {
+  it('The User must be redirected to Home', () => {
     cy.get(BUTTON_PLAY_AGAIN_SELECTOR).click();
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).should('exist');
   });
 });
 
-describe('A pessoa jogadora tem a opção de visualizar a tela de _ranking_', () => {
+describe('The User can see the ranking', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/');
     cy.clearLocalStorage();
@@ -655,7 +640,7 @@ describe('A pessoa jogadora tem a opção de visualizar a tela de _ranking_', ()
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
   });
 
-  it('a pessoa deve ser redirecionada para tela inicial', () => {
+  it('The User must be redirected to Home', () => {
     cy.get(BUTTON_RANKING_SELECTOR).click();
     cy.get(RANKING_TITLE_SELECTOR).should('exist');
   });

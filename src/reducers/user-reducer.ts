@@ -1,10 +1,16 @@
-import { ADD_USER, ADD_SCORE } from '../action';
+import { UserActions } from "src/types";
+import { ADD_USER, ADD_SCORE } from "../action";
 
-const CryptoJS = require('crypto-js');
+const CryptoJS = require("crypto-js");
 
-const INITIAL_STATE = [];
+const INITIAL_STATE = {
+  name: "",
+  email: "",
+  hash: "",
+  score: 0,
+};
 
-const userReducer = (state = INITIAL_STATE, action) => {
+const userReducer = (state = INITIAL_STATE, action: UserActions) => {
   switch (action.type) {
     case ADD_USER:
       return {
