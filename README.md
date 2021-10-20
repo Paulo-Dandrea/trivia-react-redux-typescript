@@ -1,7 +1,7 @@
 # Trivia - a Quiz Game | React | Redux | Typescript
 
 
-Solution originally delivered for a bootcamp([Trybe](https://labsnews.com/en/news/business/trybe-the-school-for-devs-raises-27-million-to-expand-training-portfolio/)) with *class components*, *Redux* and *Javascript*. 
+Solution originally delivered for a bootcamp([Trybe](https://labsnews.com/en/news/business/trybe-the-school-for-devs-raises-27-million-to-expand-training-portfolio/)) with *class components*, *Redux*(for practice) and *Javascript*. 
 
 I've refactored it with *Typescript* and *Hooks*.
 
@@ -53,6 +53,7 @@ There are some things to be improved:
 - CSS practices and migration from Bootstrap to Styled Components
 - Design
 - UX
+- Unit tests
 - Simple state management, Redux is an overkill here
 
 ## Author
